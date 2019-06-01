@@ -5,7 +5,6 @@ package html2md
 import (
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
 )
 
@@ -39,14 +38,7 @@ func H() *Rule {
 				return ""
 			}
 
-			hLevel, err := strconv.Atoi(attrs[0])
-			if err != nil {
-				fmt.Println(err)
-				return ""
-			}
-
-			return "\n\n" + strings.Repeat("#", hLevel) +
-				" " + strings.Replace(strings.Replace(attrs[2], "\n", " ", -1), "\r", " ", -1) + "\n"
+			return "\n\n**" + strings.Replace(strings.Replace(attrs[2], "\n", " ", -1), "\r", " ", -1) + "**\n"
 		},
 	}
 }
@@ -159,7 +151,7 @@ func Img() *Rule {
 				if len(alt) == 0 {
 					alt = title
 				}
-				return "![" + alt + "]" + "(" + src + " \"" + title + "\")"
+				return "![" + alt + "]" + "(" + src + ")"
 			}
 			if len(alt) == 0 {
 				alt = "image"
@@ -320,7 +312,7 @@ func wrapInlineTag(content, openWrap, closeWrap string) string {
 }
 
 func WrapInlineTag(content, openWrap, closeWrap string) string {
-  return wrapInlineTag(content, openWrap, closeWrap)
+	return wrapInlineTag(content, openWrap, closeWrap)
 }
 
 func init() {
